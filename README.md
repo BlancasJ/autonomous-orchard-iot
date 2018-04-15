@@ -19,16 +19,36 @@ When soil moisture drops below 70%, the valve opens to irrigate. It closes when 
 
 A PIC18F4550 version was also developed using a DHT11 sensor and timer-based interrupt sampling for concurrent data acquisition.
 
+## Hardware Components
+
+| Component | Purpose |
+|-----------|---------|
+| Intel Edison board | Central controller (programmed in Arduino Sketch) |
+| Grove Indoor Environment Kit | Shield with sensor connectors for the Edison |
+| 6x analog soil moisture sensors | Monitor moisture levels across orchard plots (A0-A5) |
+| TH02 temperature/humidity sensor | Reads ambient temperature and humidity via I2C |
+| HC-SR04 ultrasonic sensor | Measures water level in the reservoir (distance to surface) |
+| Solenoid valve | Controls water flow to the irrigation lines |
+| Relay module | Switches the solenoid valve on/off via GPIO |
+| RGB LCD display (Grove) | Local readout of moisture, temperature, humidity |
+| Water tank + PVC piping | Elevated reservoir with gravity-assisted flow to the plots |
+| Drip irrigation lines | Distribute water across the orchard rows |
+| WiFi module | Sends sensor data to remote PHP/MySQL server |
+
+### PIC Version (alternative)
+
+| Component | Purpose |
+|-----------|---------|
+| PIC18F4550 microcontroller | Central controller (CCS C compiler) |
+| DHT11 sensor | Temperature and humidity (replaces TH02) |
+| ESP8266 WiFi module | Network connectivity via AT commands over UART |
+| LCD 16x2 display | Local readout (replaces Grove RGB LCD) |
+
 ## Tech Stack
-- Intel Edison (central controller, programmed in Arduino Sketch)
-- Arduino WiFi module
-- TH02 temperature/humidity sensor (I2C)
-- HC-SR04 ultrasonic sensor (water reservoir level)
-- 6x analog soil moisture sensors
-- Solenoid valve + relay module (irrigation control)
-- RGB LCD display (Grove, for local readout)
-- PhpMyAdmin + SQL (data logging)
-- PIC18F4550 + CCS C compiler (alternative version with DHT11)
+- Arduino Sketch (Intel Edison / Arduino IDE)
+- CCS C compiler (PIC version, ccsinfo.com)
+- PHP + PhpMyAdmin + MySQL (server-side data logging)
+- WiFi HTTP GET (sensor data transmission)
 
 ## How to Run
 Requires specific hardware (Intel Edison or Arduino with WiFi, sensors, solenoid valve, relay). Upload the desired `.ino` sketch via Arduino IDE. Configure WiFi credentials and server IP in the sketch before uploading.
